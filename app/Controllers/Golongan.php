@@ -13,6 +13,10 @@ class Golongan extends BaseController
 		$this->session->start();
 	}
 	public function index(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$data = [
 			'title' => 'Admin Dashboard',
 			'subtitle' => 'Dashboard',
@@ -22,6 +26,10 @@ class Golongan extends BaseController
 	}
 
 	public function save(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$golongan_nm = $this->request->getVar('golongan_nm');
 		$bygolnm = $this->golonganmodel->getbyGolnm($golongan_nm)->getResult();
 		if (count($bygolnm)>0) {
@@ -47,6 +55,10 @@ class Golongan extends BaseController
 	}
 
 	public function update(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$id = $this->request->getVar('id');
 		$golongan_nm = $this->request->getVar('golongan_nm');
 		
@@ -69,6 +81,10 @@ class Golongan extends BaseController
 	}
 
 	public function formedit(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$golongan_id = $this->request->getVar('id');
 		$res = $this->golonganmodel->find($golongan_id);
 		if (count($res)>0) {
@@ -101,6 +117,10 @@ class Golongan extends BaseController
 	}
 
 	public function hapus(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$id = $this->request->getVar('id');
 		$datenow = date('Y-m-d H:i:s');
 		$data = [

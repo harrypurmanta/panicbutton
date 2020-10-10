@@ -13,6 +13,10 @@ class jabatan extends BaseController
 		$this->session->start();
 	}
 	public function index(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$data = [
 			'title' => 'Admin Dashboard',
 			'subtitle' => 'Dashboard',
@@ -22,6 +26,10 @@ class jabatan extends BaseController
 	}
 
 	public function save(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$jabatan_nm = $this->request->getVar('jabatan_nm');
 		$bygolnm = $this->jabatanmodel->getbyGolnm($jabatan_nm)->getResult();
 		if (count($bygolnm)>0) {
@@ -47,7 +55,11 @@ class jabatan extends BaseController
 	}
 
 	public function update(){
-		$id = $this->request->getVar('id');
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
+		$id = $this->request->getPost('id');
 		$jabatan_nm = $this->request->getVar('jabatan_nm');
 		
 			// $session = \Config\Services::session();
@@ -69,6 +81,10 @@ class jabatan extends BaseController
 	}
 
 	public function formedit(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$jabatan_id = $this->request->getVar('id');
 		$res = $this->jabatanmodel->find($jabatan_id);
 		if (count($res)>0) {
@@ -101,6 +117,10 @@ class jabatan extends BaseController
 	}
 
 	public function hapus(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$id = $this->request->getVar('id');
 		$datenow = date('Y-m-d H:i:s');
 		$data = [

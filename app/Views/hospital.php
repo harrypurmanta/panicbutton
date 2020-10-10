@@ -44,9 +44,6 @@
                                             <tr>
                                                 <th class="text-center">No</th>
                                                 <th class="text-center">Nama hospital</th>
-                                                <th class="text-center">Status</th>
-                                                <th class="text-center">Tanggal Entri</th>
-                                                <th class="text-center">Pegawai</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -60,12 +57,9 @@
                                                 <td class="text-center"><?= $no++ ?></td>
                                                 <td><a onclick="showedit(<?= $k->hospital_id ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k->hospital_nm ?></span></a>
                                                 </td>
-                                                <td class="text-center"><?= $k->status_cd ?></td>
-                                                <td class="text-center"><?= $k->created_dttm ?></td>
-                                                <td><?= $k->created_user ?></td>
                                                 <td class="text-center">
                                                     <a onclick="showedit(<?= $k->hospital_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
-                                                    <a onclick="hapus(<?= $k->hospital_id ?>,'hospital')"><span style="text-decoration:underline;">Hapus</span></a>
+                                                    <a onclick="hapus(<?= $k->hospital_id ?>,'hospital')"><span style="text-decoration:underline;" class="btn btn-link">Hapus</span></a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -172,7 +166,17 @@ function showedit(id) {
 }
 
 function hapus(id,t) {
-    $.ajax({
+      Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+    if (result.value == true) {
+        $.ajax({
      url : "<?= base_url('hospital/hapus') ?>",
      type: "post",
      data : {'id':id,'t':t},
@@ -200,6 +204,10 @@ function hapus(id,t) {
         })
      }
     });
+      
+    }
+ })
+    
 
 }
 

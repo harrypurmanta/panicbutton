@@ -35,7 +35,7 @@
             <!-- ============================================================== -->
  <!-- Row -->
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
                                 
@@ -50,8 +50,8 @@
                                     <div class="tab-pane active" id="profile" role="tabpanel">
                                         
                                     </div>
-                                    <div class="tab-pane p-20" id="account" role="tabpanel">2</div>
-                                    <div class="tab-pane p-20" id="setting" role="tabpanel">3</div>
+                                    <div class="tab-pane p-20" id="account" role="tabpanel"></div>
+                                    <div class="tab-pane p-20" id="setting" role="tabpanel">comming soon</div>
                                 </div>
                             </div>
                         </div>
@@ -112,8 +112,63 @@ function simpanuser(id){
                     confirmButtonColor:"#556ee6",
                     cancelButtonColor:"#f46a6a"
                 })
-                // setTimeout(function(){ window.location.href = "<?=base_url()?>/employee/formdaftaremployee"; }, 1000);
+                account(id);
                 }
+            },
+            error:function(){
+                Swal.fire({
+                    title:"Gagal!",
+                    text:"Data gagal disimpan!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+            }
+            });
+        }
+}
+
+function updateuser(id,uid) {
+    var user_nm = $('#user_nm').val();
+        var pwd0 = $('#pwd0').val();
+        var user_group = $('#user_group').val();
+        if (user_nm==''||pwd0=='') {
+            Swal.fire({
+                    title:"username & Password harus di isi!!",
+                    text:"GAGAL!",
+                    type:"warning",
+                    showCancelButton:!0,
+                    confirmButtonColor:"#556ee6",
+                    cancelButtonColor:"#f46a6a"
+                })
+        } else {
+            $.ajax({
+            url : "<?= base_url('employee/updateuser') ?>",
+            type: "post",
+            data : {'user_nm':user_nm,'pwd0':pwd0,'id':id,'uid':uid,'user_group':user_group},
+            success:function(data){
+                if (data == "true") {
+                    Swal.fire({
+                        title:"Berhasil!",
+                        text:"Data berhasil disimpan!",
+                        type:"success",
+                        showCancelButton:!0,
+                        confirmButtonColor:"#556ee6",
+                        cancelButtonColor:"#f46a6a"
+                    })
+                    account(id);
+                } else {
+                    Swal.fire({
+                        title:"Gagal!",
+                        text:"Data gagal disimpan!",
+                        type:"warning",
+                        showCancelButton:!0,
+                        confirmButtonColor:"#556ee6",
+                        cancelButtonColor:"#f46a6a"
+                    })
+                }
+                
             },
             error:function(){
                 Swal.fire({
@@ -194,7 +249,7 @@ function account(id){
 
 
 function simpan() {
-	var person_id = $('#person_id').val();
+	    var person_id = $('#person_id').val();
         var person_nm = $('#person_nm').val();
         var ext_id = $('#ext_id').val();
         var gender_cd = $('#gender_cd').val();
@@ -205,7 +260,8 @@ function simpan() {
         var employee_ext_id = $('#employee_ext_id').val();
         var pangkat = $('#pangkat').val();
         var kesatuan = $('#kesatuan').val();
-        if (person_nm=='') {
+        var image_nm = $('#image_nm')[0].files[0];
+        if (person_nm == "") {
         	Swal.fire({
                     title:"Nama harus di isi!!",
                     text:"GAGAL!",
@@ -214,13 +270,37 @@ function simpan() {
                     confirmButtonColor:"#556ee6",
                     cancelButtonColor:"#f46a6a"
                 })
+        } else if (employee_ext_id == "") {
+            Swal.fire({
+                title:"NRP/NIP harus di isi!!",
+                text:"GAGAL!",
+                type:"warning",
+                showCancelButton:!0,
+                confirmButtonColor:"#556ee6",
+                cancelButtonColor:"#f46a6a"
+            })
         } else {
+            var ajaxData = new FormData();
+            ajaxData.append('person_id',person_id);
+            ajaxData.append('person_nm',person_nm);
+            ajaxData.append('ext_id',ext_id);
+            ajaxData.append('gender_cd',gender_cd);
+            ajaxData.append('birth_dttm',birth_dttm);
+            ajaxData.append('birth_place',birth_place);
+            ajaxData.append('cellphone',cellphone);
+            ajaxData.append('addr_txt',addr_txt);
+            ajaxData.append('employee_ext_id',employee_ext_id);
+            ajaxData.append('pangkat',pangkat);
+            ajaxData.append('kesatuan',kesatuan);
+            ajaxData.append('image_nm',image_nm);
             $.ajax({
             url : "<?= base_url('employee/save') ?>",
             type: "post",
-            data : {'person_id':person_id,'person_nm':person_nm,'ext_id':ext_id,'gender_cd':gender_cd,'birth_dttm':birth_dttm,'birth_place':birth_place,'cellphone':cellphone,'addr_txt':addr_txt,'employee_ext_id':employee_ext_id,'pangkat':pangkat,'kesatuan':kesatuan},
+            data : ajaxData,
+            contentType: false,
+            processData: false,
             success:function(data){
-              Swal.fire({
+                Swal.fire({
                     title:"Berhasil!",
                     text:"Data berhasil disimpan!",
                     type:"success",

@@ -11,6 +11,10 @@ class Panic extends BaseController
 		$this->session->start();
 	}
 	public function history(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$data = [
 			'title' => 'Panic Dashboard',
 			'subtitle' => 'History',

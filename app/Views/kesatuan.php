@@ -71,9 +71,6 @@
                                             <tr>
                                                 <th class="text-center">No</th>
                                                 <th class="text-center">Nama kesatuan</th>
-                                                <th class="text-center">Status</th>
-                                                <th class="text-center">Tanggal Entri</th>
-                                                <th class="text-center">Pegawai</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -87,12 +84,9 @@
                                                 <td class="text-center"><?= $no++ ?></td>
                                                 <td><a onclick="showedit(<?= $k->kesatuan_id ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k->kesatuan_nm ?></span></a>
                                                 </td>
-                                                <td class="text-center"><?= $k->status_cd ?></td>
-                                                <td class="text-center"><?= $k->created_dttm ?></td>
-                                                <td><?= $k->created_user ?></td>
                                                 <td class="text-center">
                                                     <a onclick="showedit(<?= $k->kesatuan_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
-                                                    <a onclick="hapus(<?= $k->kesatuan_id ?>,'kesatuan')"><span style="text-decoration:underline;">Hapus</span></a>
+                                                    <a onclick="hapus(<?= $k->kesatuan_id ?>,'kesatuan')"><span style="text-decoration:underline;" class="btn btn-link">Hapus</span></a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -210,34 +204,49 @@ function showedit(id) {
 }
 
 function hapus(id,t) {
-    $.ajax({
-     url : "<?= base_url('kesatuan/hapus') ?>",
-     type: "post",
-     data : {'id':id,'t':t},
-     success:function(){
+    Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+    if (result.value == true) {
+        
+        $.ajax({
+         url : "<?= base_url('kesatuan/hapus') ?>",
+         type: "post",
+         data : {'id':id,'t':t},
+         success:function(){
+          
+            Swal.fire({
+                title:"Berhasil!",
+                text:"Data berhasil disimpan!",
+                type:"success",
+                showCancelButton:!0,
+                confirmButtonColor:"#556ee6",
+                cancelButtonColor:"#f46a6a"
+            })
+                     $( "#myTable" ).load("<?= base_url('kesatuan') ?> #myTable");
+        
+         },
+         error:function(){
+            Swal.fire({
+                title:"Gagal!",
+                text:"Data gagal disimpan!",
+                type:"warning",
+                showCancelButton:!0,
+                confirmButtonColor:"#556ee6",
+                cancelButtonColor:"#f46a6a"
+            })
+         }
+        });
       
-        Swal.fire({
-            title:"Berhasil!",
-            text:"Data berhasil disimpan!",
-            type:"success",
-            showCancelButton:!0,
-            confirmButtonColor:"#556ee6",
-            cancelButtonColor:"#f46a6a"
-        })
-                 $( "#myTable" ).load("<?= base_url('kesatuan') ?> #myTable");
-    
-     },
-     error:function(){
-        Swal.fire({
-            title:"Gagal!",
-            text:"Data gagal disimpan!",
-            type:"warning",
-            showCancelButton:!0,
-            confirmButtonColor:"#556ee6",
-            cancelButtonColor:"#f46a6a"
-        })
-     }
-    });
+    }
+ })
+
 
 }
 
@@ -258,6 +267,7 @@ function update(id) {
              ajaxData.append('action','update-file');
              ajaxData.append('kesatuan_nm',kesatuan_nm);
              ajaxData.append('kesatuan_id',kesatuan_id);
+             ajaxData.append('id',id);
             $.ajax({
             url : "<?= base_url('kesatuan/update') ?>",
             type: "POST",

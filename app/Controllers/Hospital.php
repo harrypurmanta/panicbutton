@@ -13,6 +13,10 @@ class Hospital extends BaseController
 		$this->session->start();
 	}
 	public function index(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$data = [
 			'title' => 'Admin Dashboard',
 			'subtitle' => 'Dashboard',
@@ -22,6 +26,10 @@ class Hospital extends BaseController
 	}
 
 	public function save(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$hospital_nm	 = $this->request->getPost('hospital_nm');
 		$telephone		 = $this->request->getPost('telephone');
 		$longtitude		 = $this->request->getPost('longtitude');
@@ -53,6 +61,11 @@ class Hospital extends BaseController
 	}
 
 	public function update(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
+
 		$id = $this->request->getVar('id');
 		$hospital_nm = $this->request->getVar('hospital_nm');
 		$telephone		 = $this->request->getPost('telephone');
@@ -80,6 +93,10 @@ class Hospital extends BaseController
 	}
 
 	public function formedit(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$hospital_id = $this->request->getVar('id');
 		$res = $this->hospitalmodel->find($hospital_id);
 		if ($hospital_id != "") {
@@ -94,23 +111,23 @@ class Hospital extends BaseController
 	            . "<input type='hidden' value='".$hospital_id."' class='form-control' id='hospital_id'>"
 	            . "<div class='form-group'>"
 	            . "<label for='recipient-name' class='control-label'>Nama hospital</label>"
-	            . "<input type='text' class='form-control' id='hospital_nm' value='".$res['hospital_nm']."'>"
+	            . "<input type='text' class='form-control hospital' id='hospital_nm' value='".$res['hospital_nm']."'>"
 	            . "</div>"
 	            . "<div class='form-group'>"
 	            . "<label class='control-label'>Telephone</label>"
-	            . "<input type='text' class='form-control' id='telephone' value='".$res['telephone']."'>"
+	            . "<input type='text' class='form-control hospital' id='telephone' value='".$res['telephone']."'>"
 	            . "</div>"
 	            . "<div class='form-group'>"
 	            . "<label class='control-label'>Longtitude</label>"
-	            . "<input type='text' class='form-control' id='longtitude' value='".$res['longitude']."'>"
+	            . "<input type='text' class='form-control hospital' id='longtitude' value='".$res['longitude']."'>"
 	            . "</div>"
 	            . "<div class='form-group'>"
 	            . "<label class='control-label'>Latitude</label>"
-	            . "<input type='text' class='form-control' id='latitude' value='".$res['latitude']."'>"
+	            . "<input type='text' class='form-control hospital' id='latitude' value='".$res['latitude']."'>"
 	            . "</div>"
 	            . "<div class='form-group'>"
 	            . "<label class='control-label'>Alamat</label>"
-	            . "<textarea class='form-control' id='addr_txt'>".$res['addr_txt']."</textarea>"
+	            . "<textarea class='form-control hospital' id='addr_txt'>".$res['addr_txt']."</textarea>"
 	            . "</div>"
 	            . "</form>"
 	            . "</div>"
@@ -132,29 +149,29 @@ class Hospital extends BaseController
 	            . "<form>"
 	            . "<div class='form-group'>"
 	            . "<label class='control-label'>Nama hospital</label>"
-	            . "<input type='text' class='form-control' id='hospital_nm'>"
+	            . "<input type='text' class='form-control hospital' id='hospital_nm'>"
 	            . "</div>"
 	            . "<div class='form-group'>"
 	            . "<label class='control-label'>Telephone</label>"
-	            . "<input type='text' class='form-control' id='telephone'>"
+	            . "<input type='text' class='form-control hospital' id='telephone'>"
 	            . "</div>"
 	            . "<div class='form-group'>"
 	            . "<label class='control-label'>Longtitude</label>"
-	            . "<input type='text' class='form-control' id='longtitude'>"
+	            . "<input type='text' class='form-control hospital' id='longtitude'>"
 	            . "</div>"
 	            . "<div class='form-group'>"
 	            . "<label class='control-label'>Latitude</label>"
-	            . "<input type='text' class='form-control' id='latitude'>"
+	            . "<input type='text' class='form-control hospital' id='latitude'>"
 	            . "</div>"
 	            . "<div class='form-group'>"
 	            . "<label class='control-label'>Alamat</label>"
-	            . "<textarea class='form-control' id='addr_txt'></textarea>"
+	            . "<textarea class='form-control hospital' id='addr_txt'></textarea>"
 	            . "</div>"
 	            . "</form>"
 	            . "</div>"
 	            . "<div class='modal-footer'>"
 	            . "<button type='button' class='btn btn-default waves-effect' data-dismiss='modal'>Close</button>"
-	            . "<button onclick='simpan()' type='button' class='btn btn-danger waves-effect waves-light'>Simpan</button>"
+	            . "<button id='btnedit' onclick='simpan()' type='button' class='btn btn-danger waves-effect waves-light'>Simpan</button>"
 	            . "</div>"
 	            . "</div>"
 	            . "</div>";
@@ -163,6 +180,10 @@ class Hospital extends BaseController
 	}
 
 	public function hapus(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$id = $this->request->getVar('id');
 		$datenow = date('Y-m-d H:i:s');
 		$data = [

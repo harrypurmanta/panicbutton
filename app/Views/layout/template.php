@@ -103,6 +103,11 @@
                         	</div>
                         </li>
                         <li class="nav-item"> 
+                            <a class="nav-link" href="<?=base_url() ?>/artikel">
+                                <span class="hide-menu">Artikel</span>
+                            </a>
+                        </li>
+                        <li class="nav-item"> 
                             <a class="nav-link" href="<?=base_url() ?>/panic/history">
                                 <span class="hide-menu">Panic History</span>
                             </a>

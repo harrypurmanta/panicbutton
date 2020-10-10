@@ -13,6 +13,10 @@ class Pangkat extends BaseController
 		$this->session->start();
 	}
 	public function index(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$data = [
 			'title' => 'Admin Dashboard',
 			'subtitle' => 'Dashboard',
@@ -22,6 +26,10 @@ class Pangkat extends BaseController
 	}
 
 	public function save(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$pangkat_nm = $this->request->getVar('pangkat_nm');
 		$bygolnm = $this->pangkatmodel->getbyGolnm($pangkat_nm)->getResult();
 		if (count($bygolnm)>0) {
@@ -47,6 +55,10 @@ class Pangkat extends BaseController
 	}
 
 	public function update(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$id = $this->request->getVar('id');
 		$pangkat_nm = $this->request->getVar('pangkat_nm');
 		
@@ -69,6 +81,10 @@ class Pangkat extends BaseController
 	}
 
 	public function formedit(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$pangkat_id = $this->request->getVar('id');
 		$res = $this->pangkatmodel->find($pangkat_id);
 		if (count($res)>0) {
@@ -101,6 +117,10 @@ class Pangkat extends BaseController
 	}
 
 	public function hapus(){
+		if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
 		$id = $this->request->getVar('id');
 		$datenow = date('Y-m-d H:i:s');
 		$data = [

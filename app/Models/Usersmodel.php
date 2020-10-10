@@ -10,21 +10,19 @@ class Usersmodel extends Model
 
 
     public function checklogin($u,$p) {
-        $Usersmodel = new Usersmodel();
-    	$users = $Usersmodel->where('user_nm',$u)
-                            ->where('pwd0',$p)
-                            ->findAll();
-        return $users;
+        return $this->db->table($this->table)
+                        ->where('user_nm',$u)
+                        ->where('pwd0',$p)
+                        ->where('user_group','admin')
+                        ->get();
     }
 
     public function getbyId($id){
-        $db = db_connect('default');
-        $builder = $db->table('persons a');
-        $builder->select('*');
-        $builder->join('users b', 'b.person_id = a.person_id','left');
-        $builder->where('a.person_id',$id);
-        $query = $builder->get();
-        return $query->getResult();
+        return $this->db->table('persons a')
+                        ->select('*')
+                        ->join('users b', 'b.person_id = a.person_id','left')
+                        ->where('a.person_id',$id)
+                        ->get();
     }
 
     public function getbyUsernm($user_nm){

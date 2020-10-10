@@ -30,39 +30,13 @@
             <!-- ============================================================== -->
             <!-- End Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-          		 <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                              	<?= csrf_field(); ?>
-                                <form id="upload-file" method="post" enctype="multipart/form-data">
-                                    <div class="form-body">
-                                        <div class="row p-t-20">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="control-label">Nama location Produk</label>
-                                                    <input type="text" id="namalocation" name="location_nm" class="form-control" placeholder="Input disini" required="">
-                                                    <small class="form-control-feedback"> Contoh : starter, pizza, pasta dll </small> </div>
-                                            </div>
-                                        </div>
-                                       
-                                    </div>
-                                    <div class="form-actions">
-                                        <button id="simpangol" type="button" class="btn btn-success" onclick="simpan()"> <i class="fa fa-check"></i> Save</button>
-                                        <button type="button" class="btn btn-inverse">Cancel</button>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
-                   
-                </div>
+          	
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                         	<div class="card-header bg-info">
-                                <h4 class="m-b-0 text-white d-inline">Tabel Data location</h4>
+                                <h4 class="m-b-0 text-white d-inline">Tabel Data artikel</h4>
+                                <button id="simpankat" type="button" class="btn btn-success d-inline-block float-right" onclick="tambahdata()"> <i class="fa fa-check"></i> Tambah Data</button>
                             </div>
                             <div class="card-body">
                                <div class="table-responsive">
@@ -70,23 +44,25 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">Nama location</th>
+                                                <th class="text-center">Nama artikel</th>
+                                                <th class="text-center">Status</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         	<?php 
                                         		$no=1;
-                                        		foreach ($location->getResult() as $k) {
+                                        		foreach ($artikel->getResult() as $k) {
                                         	?>
 
                                             <tr id="accordian-3">
                                                 <td class="text-center"><?= $no++ ?></td>
-                                                <td><a onclick="showedit(<?= $k->location_id ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k->location_nm ?></span></a>
+                                                <td><a onclick="showedit(<?= $k->artikel_id ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k->artikel_nm ?></span></a>
                                                 </td>
+                                                <td class="text-center"><?= $k->status_cd ?></td>
                                                 <td class="text-center">
-                                                    <a onclick="showedit(<?= $k->location_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
-                                                    <a onclick="hapus(<?= $k->location_id ?>,'location')"><span style="text-decoration:underline;" class="btn btn-link">Hapus</span></a>
+                                                    <a onclick="showedit(<?= $k->artikel_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
+                                                    <a onclick="hapus(<?= $k->artikel_id ?>,'artikel')"><span style="text-decoration:underline;" class="btn btn-link">Hapus</span></a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -108,61 +84,98 @@
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
             <!-- ============================================================== -->
+
               <script type="text/javascript">
 
-    var input = document.getElementById("namalocation");
+    var input = document.getElementById("namaartikel");
     input.addEventListener("keyup", function(event) {
+      // Number 13 is the "Enter" key on the keyboard
       if (event.keyCode === 13) {
         event.preventDefault();
         document.getElementById("simpangol").click();
       }
     });
 
-
+    function tambahdata() {
+    	$.ajax({
+	     url : "<?= base_url('artikel/tambahdata') ?>",
+	     type: "post",
+	     success:function(data){
+	      //_data = JSON.parse(data);
+	     $('#modaledit').modal('show');
+	     $('#modaledit').html(data);
+	    },
+	    error:function(){
+	        Swal.fire({
+	            title:"Gagal!",
+	            text:"Data gagal disimpan!",
+	            type:"warning",
+	            showCancelButton:!0,
+	            confirmButtonColor:"#556ee6",
+	            cancelButtonColor:"#f46a6a"
+	        })
+	    }
+	    });
+    }
 
     function simpan() {
-        var location_nm = $("input[name^='location_nm']").val();
-        if (location_nm=='') {
+        var artikel_nm = $('#artikel_nm').val();
+		var category_id = $('#category_id').val();
+		var description = $('#description').val();
+     	var artikel_img = $('#artikel_img')[0].files[0];
+        if (artikel_nm == "") {
         	Swal.fire({
-            title:"Nama location harus di isi!!",
-            text:"GAGAL!",
-            type:"warning",
-            showCancelButton:!0,
-            confirmButtonColor:"#556ee6",
-            cancelButtonColor:"#f46a6a"
-                })
+            	title:"Judul artikel harus di isi!!",
+            	text:"GAGAL!",
+            	type:"warning",
+            	showCancelButton:!0,
+            	confirmButtonColor:"#556ee6",
+            	cancelButtonColor:"#f46a6a"
+            })
+        } else if (artikel_img == "") {
+         	Swal.fire({
+            	title:"Gambar harus diisi!!",
+            	text:"GAGAL!",
+            	type:"warning",
+            	showCancelButton:!0,
+            	confirmButtonColor:"#556ee6",
+            	cancelButtonColor:"#f46a6a"
+            })
         } else {
-             var ajaxData = new FormData();
-             ajaxData.append('action','upload-file');
-             ajaxData.append('location_nm',location_nm);
+            var ajaxData = new FormData();
+            ajaxData.append('action','forms');
+            ajaxData.append('artikel_nm',artikel_nm);
+            ajaxData.append('category_id',category_id);
+            ajaxData.append('artikel_img',artikel_img);
+            ajaxData.append('description',description);
             $.ajax({
-            url : "<?= base_url('location/save') ?>",
+            url : "<?= base_url('artikel/save') ?>",
             type: "POST",
             data : ajaxData,
             contentType: false,
             processData: false,
-            success:function(_data){
-             if (_data=='already') {
-                Swal.fire({
-                    title:"Nama location sudah ada!!",
-                    text:"GAGAL!",
-                    type:"warning",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
-                })
-             } else {
-                Swal.fire({
-                    title:"Berhasil!",
-                    text:"Data berhasil disimpan!",
-                    type:"success",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
-                })
-                $('#modaledit').modal('hide');
-                 $( "#myTable" ).load("<?= base_url('location') ?> #myTable");
-                }
+            success:function(data){
+            	if (data == "true") {
+            		Swal.fire({
+	                    title:"Berhasil!",
+	                    text:"Data berhasil disimpan!",
+	                    type:"success",
+	                    showCancelButton:!0,
+	                    confirmButtonColor:"#556ee6",
+	                    cancelButtonColor:"#f46a6a"
+	                })
+	                $('#modaledit').modal('hide');
+	                $( "#myTable" ).load("<?= base_url('artikel') ?> #myTable");
+            	} else {
+            		Swal.fire({
+			            title:"Gagal!",
+			            text:"Data gagal disimpan!",
+			            type:"warning",
+			            showCancelButton:!0,
+			            confirmButtonColor:"#556ee6",
+			            cancelButtonColor:"#f46a6a"
+			        })
+            	}
             },
             error:function(){
                 Swal.fire({
@@ -180,11 +193,10 @@
 
 function showedit(id) {
     $.ajax({
-     url : "<?= base_url('location/formedit') ?>",
+     url : "<?= base_url('artikel/formedit') ?>",
      type: "post",
      data : {'id':id},
      success:function(data){
-      //_data = JSON.parse(data);
      $('#modaledit').modal('show');
      $('#modaledit').html(data);
     },
@@ -202,18 +214,18 @@ function showedit(id) {
 }
 
 function hapus(id,t) {
-        Swal.fire({
+    Swal.fire({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
     type: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
+    confirmButtonText: 'Yes, order it!'
 }).then((result) => {
     if (result.value == true) {
         $.ajax({
-         url : "<?= base_url('location/hapus') ?>",
+         url : "<?= base_url('artikel/hapus') ?>",
          type: "post",
          data : {'id':id,'t':t},
          success:function(){
@@ -226,7 +238,7 @@ function hapus(id,t) {
                 confirmButtonColor:"#556ee6",
                 cancelButtonColor:"#f46a6a"
             })
-                     $( "#myTable" ).load("<?= base_url('location') ?> #myTable");
+            $( "#myTable" ).load("<?= base_url('artikel') ?> #myTable");
         
          },
          error:function(){
@@ -243,16 +255,16 @@ function hapus(id,t) {
       
     }
  })
-
-
 }
 
 function update(id) {
-	var location_nm = $('#location_nm').val();
-    var location_id = $('#location_id').val();
-        if (location_nm=='') {
+	var artikel_nm = $('#artikel_nm').val();
+	var category_id = $('#category_id').val();
+	var description = $('#description').val();
+    var artikel_img = $('#artikel_img')[0].files[0];
+        if (artikel_nm=='') {
         	Swal.fire({
-                    title:"Nama location harus di isi!!",
+                    title:"Nama artikel harus di isi!!",
                     text:"GAGAL!",
                     type:"warning",
                     showCancelButton:!0,
@@ -262,38 +274,40 @@ function update(id) {
         } else {
             var ajaxData = new FormData();
              ajaxData.append('action','update-file');
-             ajaxData.append('location_nm',location_nm);
-             ajaxData.append('location_id',location_id);
+             ajaxData.append('action','forms');
+            ajaxData.append('artikel_nm',artikel_nm);
+            ajaxData.append('category_id',category_id);
+            ajaxData.append('artikel_img',artikel_img);
+            ajaxData.append('description',description);
              ajaxData.append('id',id);
             $.ajax({
-            url : "<?= base_url('location/update') ?>",
+            url : "<?= base_url('artikel/update') ?>",
             type: "POST",
             data : ajaxData,
             contentType: false,
             processData: false,
-            success:function(_data){
-             if (_data=='already') {
-                Swal.fire({
-                    title:"Nama location sudah ada!!",
-                    text:"GAGAL!",
-                    type:"warning",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
-                })
-             } else if (_data=='true'){
-                Swal.fire({
-                    title:"Berhasil!",
-                    text:"Data berhasil disimpan!",
-                    type:"success",
-                    showCancelButton:!0,
-                    confirmButtonColor:"#556ee6",
-                    cancelButtonColor:"#f46a6a"
-                })
-                $('#modaledit').modal('hide');
-                 $( "#myTable" ).load("<?= base_url('location') ?> #myTable");
-                //setTimeout(function(){ window.location.href = "<?=base_url()?>/location"; }, 1000);
-                }
+            success:function(data){
+             	if (data == "true") {
+            		Swal.fire({
+	                    title:"Berhasil!",
+	                    text:"Data berhasil disimpan!",
+	                    type:"success",
+	                    showCancelButton:!0,
+	                    confirmButtonColor:"#556ee6",
+	                    cancelButtonColor:"#f46a6a"
+	                })
+	                $('#modaledit').modal('hide');
+	                $( "#myTable" ).load("<?= base_url('artikel') ?> #myTable");
+            	} else {
+            		Swal.fire({
+			            title:"Gagal!",
+			            text:"Data gagal disimpan!",
+			            type:"warning",
+			            showCancelButton:!0,
+			            confirmButtonColor:"#556ee6",
+			            cancelButtonColor:"#f46a6a"
+			        })
+            	}
             },
             error:function(){
                 Swal.fire({

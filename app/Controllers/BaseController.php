@@ -41,6 +41,28 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.:
 		// $this->session = \Config\Services::session();
+
+		$this->session = \Config\Services::session();
+		$this->session->start();
+
+		function _squrity(){
+			if (session()->get('user_nm') == "") {
+	            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+	            return redirect()->to(base_url('/'));
+	        }
+		}
+
+		
+		function panjang($date) {
+			$BulanIndo = array("Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des");
+
+			$tahun = substr($date, 0, 4);
+			$bulan = substr($date, 5, 2);
+			$tgl   = substr($date, 8, 2);
+
+			$result = $tgl . " " . $BulanIndo[(int)$bulan - 1] . " " . $tahun;
+			return ($result);
+		}
 	}
 
 }
