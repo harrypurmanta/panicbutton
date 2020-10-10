@@ -88,11 +88,13 @@ class employee extends BaseController
             session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
             return redirect()->to(base_url('/'));
         }
+
 		$person_idx 		= $this->request->getPost('person_id');
 		$person_nm 			= $this->request->getPost('person_nm');
 		$ext_id 			= $this->request->getPost('ext_id');
 		$gender_cd 			= $this->request->getPost('gender_cd');
-		$birth_dttm 		= $this->request->getPost('birth_dttm');
+        $birth_dttm         = $this->request->getPost('birth_dttm');
+		$birth_dttm_old 	= $this->request->getPost('birth_dttm_old');
 		$birth_place		= $this->request->getPost('birth_place');
 		$cellphone 			= $this->request->getPost('cellphone');
 		$addr_txt 			= $this->request->getPost('addr_txt');
@@ -102,7 +104,13 @@ class employee extends BaseController
 		$jabatan_id 		= $this->request->getPost('jabatan');
 		$ext_idx 			= $this->employeemodel->getbyext_id($ext_id);
 		$datenow = date('Y-m-d H:i:s');
-        
+
+            if ($birth_dttm == "") {
+                $birth_dttmx = $birth_dttm_old;
+            } else {
+                $birth_dttmx = $birth_dttm;
+            }
+            
 			
 			if ($person_idx == "") {
                 $fileImg = $this->request->getFile('image_nm');
@@ -117,7 +125,7 @@ class employee extends BaseController
 					'person_nm' => $person_nm,
 					'ext_id' => $ext_id,
 					'gender_cd' => $gender_cd,
-					'birth_dttm' => $birth_dttm,
+					'birth_dttm' => $birth_dttmx,
 					'birth_place' => $birth_place,
 					'cellphone' => $cellphone,
                     'image_path' => 'images/persons/',
@@ -125,16 +133,16 @@ class employee extends BaseController
 					'addr_txt' => $addr_txt,
 					'created_dttm' => $datenow,
 					'created_user' => $this->session->user_id
-					];
+				];
 				$person_id = $this->employeemodel->simpan($data);
 				if ($person_id !='') {
 					$dataemployee = [
-					'person_id' => $person_id,
-					'employee_ext_id' => $employee_ext_id,
-					'pangkat_id' => $pangkat,
-					'kesatuan_id' => $kesatuan,
-					'created_dttm' => $datenow,
-					'created_user' => $this->session->user_id
+					   'person_id' => $person_id,
+					   'employee_ext_id' => $employee_ext_id,
+					   'pangkat_id' => $pangkat,
+					   'kesatuan_id' => $kesatuan,
+					   'created_dttm' => $datenow,
+					   'created_user' => $this->session->user_id
 					];
 					$saveEmp = $this->employeemodel->simpanemp($dataemployee);
 					echo $person_id;
@@ -146,41 +154,39 @@ class employee extends BaseController
                 $fileImg = $this->request->getFile('image_nm');
                 if ($fileImg == "") {
                     $data = [
-                    'person_nm' => $person_nm,
-                    'ext_id' => $ext_id,
-                    'gender_cd' => $gender_cd,
-                    'birth_dttm' => $birth_dttm,
-                    'birth_place' => $birth_place,
-                    'cellphone' => $cellphone,
-                    'addr_txt' => $addr_txt,
-                    'update_dttm' => $datenow,
-                    'update_user' => $this->session->user_id
+                        'person_nm' => $person_nm,
+                        'ext_id' => $ext_id,
+                        'gender_cd' => $gender_cd,
+                        'birth_dttm' => $birth_dttmx,
+                        'birth_place' => $birth_place,
+                        'cellphone' => $cellphone,
+                        'addr_txt' => $addr_txt,
+                        'update_dttm' => $datenow,
+                        'update_user' => $this->session->user_id
                     ];
                 } else {
                     $image_nm = $fileImg->getRandomName();
                     $fileImg->move('images/persons/', $image_nm);
                     $data = [
-                    'person_nm' => $person_nm,
-                    'ext_id' => $ext_id,
-                    'gender_cd' => $gender_cd,
-                    'birth_dttm' => $birth_dttm,
-                    'birth_place' => $birth_place,
-                    'cellphone' => $cellphone,
-                    'addr_txt' => $addr_txt,
-                    'image_nm' => $image_nm,
-                    'update_dttm' => $datenow,
-                    'update_user' => $this->session->user_id
+                        'person_nm' => $person_nm,
+                        'ext_id' => $ext_id,
+                        'gender_cd' => $gender_cd,
+                        'birth_dttm' => $birth_dttmx,
+                        'birth_place' => $birth_place,
+                        'cellphone' => $cellphone,
+                        'addr_txt' => $addr_txt,
+                        'image_nm' => $image_nm,
+                        'update_dttm' => $datenow,
+                        'update_user' => $this->session->user_id
                     ];
                 }
                 
-				
-
                 $dataemployee = [
-                'employee_ext_id' => $employee_ext_id,
-                'pangkat_id' => $pangkat,
-                'kesatuan_id' => $kesatuan,
-                'update_dttm' => $datenow,
-                'update_user' => $this->session->user_id
+                    'employee_ext_id' => $employee_ext_id,
+                    'pangkat_id' => $pangkat,
+                    'kesatuan_id' => $kesatuan,
+                    'update_dttm' => $datenow,
+                    'update_user' => $this->session->user_id
                 ];
 				$update = $this->employeemodel->update($person_idx,$data);
                 $update = $this->employeemodel->updateemp($person_idx,$dataemployee);
@@ -379,6 +385,7 @@ class employee extends BaseController
                 . "<label class='control-label text-right col-md-3'>Tanggal Lahir</label>"
                 . "<div class='col-md-9'>"
                 . "<span class='control-label'>$date</span>"
+                . "<input type='hidden' class='form-control' id='birth_dttm_old' value='$date'>"
                 . "<input type='date' class='form-control' id='birth_dttm' value='$date'>"
                 . "</div>"
                 . "</div>"

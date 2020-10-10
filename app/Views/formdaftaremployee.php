@@ -254,6 +254,7 @@ function simpan() {
         var ext_id = $('#ext_id').val();
         var gender_cd = $('#gender_cd').val();
         var birth_dttm = $('#birth_dttm').val();
+        var birth_dttm_old = $('#birth_dttm_old').val();
         var birth_place = $('#birth_place').val();
         var cellphone = $('#cellphone').val();
         var addr_txt = $('#addr_txt').val();
@@ -286,6 +287,7 @@ function simpan() {
             ajaxData.append('ext_id',ext_id);
             ajaxData.append('gender_cd',gender_cd);
             ajaxData.append('birth_dttm',birth_dttm);
+            ajaxData.append('birth_dttm_old',birth_dttm_old);
             ajaxData.append('birth_place',birth_place);
             ajaxData.append('cellphone',cellphone);
             ajaxData.append('addr_txt',addr_txt);
