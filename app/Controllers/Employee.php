@@ -103,7 +103,7 @@ class employee extends BaseController
 		$kesatuan 			= $this->request->getPost('kesatuan');
 		$jabatan_id 		= $this->request->getPost('jabatan');
 		$ext_idx 			= $this->employeemodel->getbyext_id($ext_id);
-		$datenow = date('Y-m-d H:i:s');
+		$datenow            = date('Y-m-d H:i:s');
 
             if ($birth_dttm == "") {
                 $birth_dttmx = $birth_dttm_old;
