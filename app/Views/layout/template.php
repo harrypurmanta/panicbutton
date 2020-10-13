@@ -112,6 +112,11 @@
                                 <span class="hide-menu">Panic History</span>
                             </a>
                         </li>
+                        <li class="nav-item"> 
+                            <a class="nav-link" href="<?=base_url() ?>/rekammedis">
+                                <span class="hide-menu">Rekam Medis</span>
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav my-lg-0">
                         <!-- ============================================================== -->

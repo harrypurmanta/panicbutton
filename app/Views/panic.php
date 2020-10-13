@@ -57,7 +57,7 @@
                                         	?>
                                             <tr id="accordian-3">
                                                 <td class="text-center"><?= $no++ ?></td>
-                                                <td><a onclick="showedit(<?= $k->panic_transc_id ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k->userpanic ?></span></a>
+                                                <td><a onclick="detail(<?= $k->panic_transc_id ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k->userpanic ?></span></a>
                                                 	<div>(<?=$k->nrppanic ?>)</div>
                                                 </td>
                                                 <td class="text-center"><?= $k->kesatuanpanic ?></td>
@@ -65,8 +65,8 @@
                                                 <td><?= $k->phonepanic ?></td>
                                                 <td>Action</td>
                                                 <td class="text-center">
-                                                    <a onclick="showedit(<?= $k->panic_transc_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
-                                                    <a onclick="hapus(<?= $k->panic_transc_id ?>,'panic')"><span style="text-decoration:underline;">Hapus</span></a>
+                                                    <a onclick="detail(<?= $k->panic_transc_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Detail</span></a> |
+                                                    <a onclick="hapus(<?= $k->panic_transc_id ?>,'panic')"><span style="text-decoration:underline;" class="btn btn-link">Hapus</span></a>
                                                 </td>
                                             </tr>
                                         <?php } ?>
@@ -131,8 +131,7 @@
                     cancelButtonColor:"#f46a6a"
                 })
                 $('#modaledit').modal('hide');
-                 $( "#myTable" ).load("<?= base_url('panic') ?> #myTable");
-               // setTimeout(function(){ window.location.href = "<?=base_url()?>/panic"; }, 1000);
+                $( "#myTable" ).load("<?= base_url('panic') ?> #myTable");
                 }
             },
             error:function(){
@@ -149,13 +148,12 @@
         }
 }
 
-function showedit(id) {
+function detail(id) {
     $.ajax({
-     url : "<?= base_url('panic/formedit') ?>",
+     url : "<?= base_url('panic/detail') ?>",
      type: "post",
      data : {'id':id},
      success:function(data){
-      //_data = JSON.parse(data);
      $('#modaledit').modal('show');
      $('#modaledit').html(data);
     },
@@ -187,7 +185,7 @@ function hapus(id,t) {
             confirmButtonColor:"#556ee6",
             cancelButtonColor:"#f46a6a"
         })
-                 $( "#myTable" ).load("<?= base_url('panic') ?> #myTable");
+        $( "#myTable" ).load("<?= base_url('panic/history') ?> #myTable");
     
      },
      error:function(){
