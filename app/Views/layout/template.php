@@ -113,7 +113,7 @@
                             </a>
                         </li>
                         <li class="nav-item"> 
-                            <a class="nav-link" href="<?=base_url() ?>/rekammedis">
+                            <a class="nav-link" href="<?=base_url() ?>/admission">
                                 <span class="hide-menu">Rekam Medis</span>
                             </a>
                         </li>

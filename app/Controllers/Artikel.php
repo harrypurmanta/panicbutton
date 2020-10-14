@@ -93,7 +93,7 @@ class artikel extends BaseController
         	$fileImg->move('img/artikel/', $img);
         	$data = [
 				'artikel_nm' => $artikel_nm,
-				'category_id' => $category_id,	
+				'keahlian_id' => $category_id,	
 				'description' => $description,
 				'artikel_img' => $img,
 				'status_cd' => 'normal',
@@ -128,7 +128,7 @@ class artikel extends BaseController
         	$fileImg->move('img/artikel/', $img);
         	$data = [
 				'artikel_nm' => $artikel_nm,
-				'category_id' => $category_id,	
+				'keahlian_id' => $category_id,	
 				'description' => $description,
 				'artikel_img' => $img,
 				'status_cd' => 'normal',
@@ -139,7 +139,7 @@ class artikel extends BaseController
         } else {
         	$data = [
 				'artikel_nm' => $artikel_nm,
-				'category_id' => $category_id,	
+				'keahlian_id' => $category_id,	
 				'description' => $description,
 				'status_cd' => 'normal',
 				'updated_dttm' => $datenow,

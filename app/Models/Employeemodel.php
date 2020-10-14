@@ -13,6 +13,11 @@ class Employeemodel extends Model
     // protected $deletedField  = 'nullified_dttm';
 
   
+    public function getbynormal() {
+        return $this->db->table($this->table)
+                        ->where('status_cd','normal')
+                        ->get();
+    }
 
 
     public function getBynm($person_nm){
