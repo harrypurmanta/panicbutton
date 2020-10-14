@@ -6,7 +6,7 @@ class Hospitalmodel extends Model
 {
     protected $table      = 'hospital';
     protected $primaryKey = 'hospital_id ';
-    protected $allowedFields = ['hospital_nm', 'status_cd', 'created_dttm','created_user','update_dttm','update_user','nullified_dttm','nullified_user'];
+    protected $allowedFields = ['hospital_nm','telephone','longitude','latitude','addr_txt','location_id','status_cd', 'created_dttm','created_user','update_dttm','update_user','nullified_dttm','nullified_user'];
     protected $kategorimodel;
 
     public function getbynormal() {

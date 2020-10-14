@@ -43,7 +43,7 @@ class Hospital extends BaseController
 			$data = [
 			'hospital_nm' => $hospital_nm,
 			'telephone' => $telephone,
-			'longtitude' => $longtitude,
+			'longitude' => $longtitude,
 			'latitude' => $latitude,
 			'addr_txt' => $addr_txt,
 			'status_cd' => 'normal',
@@ -76,7 +76,7 @@ class Hospital extends BaseController
 			$data = [
 			'hospital_nm' => $hospital_nm,
 			'telephone' => $telephone,
-			'longtitude' => $longtitude,
+			'longitude' => $longtitude,
 			'latitude' => $latitude,
 			'addr_txt' => $addr_txt,
 			'updated_dttm' => $datenow,
