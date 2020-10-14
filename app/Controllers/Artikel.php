@@ -90,7 +90,7 @@ class artikel extends BaseController
         
         if ($fileImg = $this->request->getFile('artikel_img')) {
         	$img = $fileImg->getRandomName();
-        	$fileImg->move('img/artikel/', $img);
+        	$fileImg->move('images/artikel/', $img);
         	$data = [
 				'artikel_nm' => $artikel_nm,
 				'keahlian_id' => $category_id,	
@@ -125,7 +125,7 @@ class artikel extends BaseController
 
 		if ($fileImg = $this->request->getFile('artikel_img')) {
         	$img = $fileImg->getRandomName();
-        	$fileImg->move('img/artikel/', $img);
+        	$fileImg->move('images/artikel/', $img);
         	$data = [
 				'artikel_nm' => $artikel_nm,
 				'keahlian_id' => $category_id,	
