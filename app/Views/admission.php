@@ -36,6 +36,7 @@
                         <div class="card">
                         	<div class="card-header bg-info">
                                 <h4 class="m-b-0 text-white d-inline">Tabel Data admission</h4>
+                                <button id="simpankat" type="button" class="btn btn-success d-inline-block float-right" onclick="tambahdata()"> <i class="fa fa-check"></i> Tambah Data</button>
                             </div>
                             <div class="card-body">
                                <div class="table-responsive">
@@ -48,7 +49,6 @@
                                                 <th class="text-center">DIAGNOSIS</th>
                                                 <th class="text-center">TERAPI</th>
                                                 <th class="text-center">SARAN</th>
-                                                <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -84,10 +84,6 @@
                                                 <td><?= $k->admission_diag ?></td>
                                                 <td><?= $k->terapi ?></td>
                                                 <td><?= $k->saran ?></td>
-                                                <td class="text-center">
-                                                    <a onclick="showedit(<?= $k->hospital_admission_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
-                                                    <a onclick="hapus(<?= $k->hospital_admission_id ?>,'admission')"><span style="text-decoration:underline;">Hapus</span></a>
-                                                </td>
                                             </tr>
                                         <?php } ?>
 
@@ -110,16 +106,26 @@
             <!-- ============================================================== -->
 
               <script type="text/javascript">
-
-    var input = document.getElementById("namaadmission");
-    input.addEventListener("keyup", function(event) {
-      // Number 13 is the "Enter" key on the keyboard
-      if (event.keyCode === 13) {
-        event.preventDefault();
-        document.getElementById("simpangol").click();
-      }
+function tambahdata() {
+    $.ajax({
+     url : "<?= base_url('admission/tambahdata') ?>",
+     type: "post",
+     success:function(data){
+     $('#modaledit').modal('show');
+     $('#modaledit').html(data);
+    },
+    error:function(){
+        Swal.fire({
+            title:"Gagal!",
+            text:"Data gagal disimpan!",
+            type:"warning",
+            showCancelButton:!0,
+            confirmButtonColor:"#556ee6",
+            cancelButtonColor:"#f46a6a"
+        })
+    }
     });
-
+}
 
     function simpan() {
         var admission_nm = $("input[name^='admission_nm']").val();

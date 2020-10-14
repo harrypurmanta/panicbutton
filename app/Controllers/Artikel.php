@@ -170,7 +170,7 @@ class artikel extends BaseController
 
 			if (count($keahlian)>0) {
 				foreach ($keahlian as $key) {
-					$optkeahlian .= "<option ".($key->keahlian_id==$res[0]->category_id?"selected='selected'":"")." value='$key->keahlian_id'>$key->keahlian_nm</option>";
+					$optkeahlian .= "<option ".($key->keahlian_id==$res[0]->keahlian_id?"selected='selected'":"")." value='$key->keahlian_id'>$key->keahlian_nm</option>";
 				}
 			} else {
 					$optkeahlian .= "<option>Belum ada data</option>";
@@ -199,6 +199,7 @@ class artikel extends BaseController
 	            . "<div class='col-5'>"
 	            . "<label for='recipient-name' class='control-label'>Gambar</label>"
 	            . "<input type='file' class='form-control' id='artikel_img'>"
+	            . "<img src='img/artikel/$key->artikel_img' style='height:150px;widht:150px;margin-top:10px;'/>"
 	            . "</div>"
 	            . "</div>"
 	            . "<div class='form-group'>"

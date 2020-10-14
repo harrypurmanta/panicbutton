@@ -19,6 +19,18 @@ class Employeemodel extends Model
                         ->get();
     }
 
+    public function getbyemployee() {
+        return $this->db->table('persons a')
+                        ->join('employee b','b.person_id=a.person_id','left')
+                        ->join('users c','c.person_id=a.person_id','left')
+                        ->join('pangkat d','d.pangkat_id=b.pangkat_id','left')
+                        ->join('jabatan e','e.jabatan_id=b.jabatan_id','left')
+                        ->join('kesatuan f','f.kesatuan_id=b.kesatuan_id','left')
+                        ->where('a.status_cd','normal')
+                        ->where('c.user_group','employee')
+                        ->get();
+    }
+
 
     public function getBynm($person_nm){
         return $this->db->table('persons')

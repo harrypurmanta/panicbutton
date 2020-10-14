@@ -28,6 +28,58 @@ class Admission extends BaseController
 		return view('admission',$data);
 	}
 
+	public function tambahdata() {
+		$employee = $this->employeemodel->getbyemployee()->getResult();
+		$optemployee = "";
+		if (count($employee)>0) {
+			foreach ($employee as $key) {
+				$optemployee .= "<option value='$key->person_id'>$key->pangkat_nm $key->person_nm</option>";
+			}
+		} else {
+				$optemployee .= "<option>Belum ada data</option>";
+		}
+		
+
+		$ret = "<div class='modal-dialog modal-lg'>"
+	            . "<div class='modal-content'>"
+	            . "<div class='modal-header'>"
+	            . "<h4 class='modal-title'>Silahkan Tambah Data</h4>"
+	             . "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>"
+	            . "</div>"
+	            . "<div class='modal-body'>"
+	            . "<form class='forms' id='forms' action='post' enctype='multipart/form-data'>"
+	            . "<div class='form-group'>"
+	            . "<label for='recipient-name' class='control-label'>Judul Artikel</label>"
+	            . "<input type='text' class='form-control' id='artikel_nm'>"
+	            . "</div>"
+	            . "<div class='form-group row'>"
+	            . "<div class='col-5'>"
+	            . "<label for='recipient-name' class='control-label'>Kategori</label>"
+	            . "<select class='form-control' id='category_id'>"
+	            . "$optemployee"
+	            . "</select>"
+	            . "</div>"
+	            . "<div class='col-5'>"
+	            . "<label for='recipient-name' class='control-label'>Gambar</label>"
+	            . "<input type='file' class='form-control' id='artikel_img'>"
+	            . "</div>"
+	            . "</div>"
+	            . "<div class='form-group'>"
+	            . "<label for='recipient-name' class='control-label'>Description</label>"
+	            . "<textarea class='form-control' id='description'></textarea>"
+	            . "</div>"
+	            . "</div>"
+	            . "<div class='modal-footer'>"
+	            . "<button type='button' class='btn btn-default waves-effect' data-dismiss='modal'>Close</button>"
+	            . "<button onclick='simpan()' type='button' class='btn btn-danger waves-effect waves-light'>Simpan</button>"
+	            . "</form>"
+	            . "</div>"
+	            . "</div>"
+	            . "</div>";
+
+	    return $ret;
+	}
+
 	public function save(){
 		if (session()->get('user_nm') == "") {
             session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');

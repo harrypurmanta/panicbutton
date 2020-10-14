@@ -87,15 +87,6 @@
 
               <script type="text/javascript">
 
-    var input = document.getElementById("namaartikel");
-    input.addEventListener("keyup", function(event) {
-      // Number 13 is the "Enter" key on the keyboard
-      if (event.keyCode === 13) {
-        event.preventDefault();
-        document.getElementById("simpangol").click();
-      }
-    });
-
     function tambahdata() {
     	$.ajax({
 	     url : "<?= base_url('artikel/tambahdata') ?>",

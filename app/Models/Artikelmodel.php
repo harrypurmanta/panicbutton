@@ -6,7 +6,7 @@ class Artikelmodel extends Model
 {
     protected $table      = 'artikel';
     protected $primaryKey = 'artikel_id ';
-    protected $allowedFields = ['artikel_nm','category_id','description','artikel_img', 'status_cd', 'created_dttm','created_user','update_dttm','update_user','nullified_dttm','nullified_user'];
+    protected $allowedFields = ['artikel_nm','keahlian_id','description','artikel_img', 'status_cd', 'created_dttm','created_user','update_dttm','update_user','nullified_dttm','nullified_user'];
     protected $kategorimodel;
 
     public function getbynormal() {
