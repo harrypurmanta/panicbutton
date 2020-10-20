@@ -34,6 +34,13 @@ class Panic extends BaseController
 				} else {
 					$gender = "Perempuan";
 				}
+
+				if ($key->birth_dttm == "0000-00-00 00:00:00") {
+					$birth_dttm = $key->birth_dttm;
+				} else {
+					$birth_dttm = panjang($key->birth_dttm);
+				}
+				
 				
 			
 			$ret = "<div class='modal-dialog modal-xl'>"
@@ -55,11 +62,11 @@ class Panic extends BaseController
                             	<small class='text-muted'>Kesatuan</small>
                                 <h6>$key->kesatuanpanic</h6> 
                                 <small class='text-muted db'>Phone</small>
-                                <h6>+62$key->phonepanic</h6>
+                                <h6>$key->phonepanic</h6>
                             	</div>
                             	<div style='display:inline-block'>
                             	<small class='text-muted'>TTL</small>
-                                <h6>$key->birth_place, ".panjang($key->birth_dttm)."</h6> 
+                                <h6>$key->birth_place, ".$birth_dttm."</h6> 
                                 <small class='text-muted db'>Jenis Kelamin</small>
                                 <h6>$gender</h6>
                             	</div>
@@ -73,7 +80,7 @@ class Panic extends BaseController
                             	<small class='text-muted'>Responder (Medic) </small>
                                 <h6>$key->userrespon</h6> 
                                 <small class='text-muted p-t-10 db'>Phone</small>
-                                <h6>+62$key->phonerespon</h6> 
+                                <h6>$key->phonerespon</h6> 
                                 <small class='text-muted p-t-10 db'>Address panic</small>
                                 <div class='map-box'>
                                 <iframe src='https://maps.google.com/maps?q=$key->latitude,$key->longitude&z=15&output=embed&zoom=30' width='100%' height='450' frameborder='0' style='border:0;' allowfullscreen='' aria-hidden='false' tabindex='0'></iframe>

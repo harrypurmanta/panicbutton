@@ -57,50 +57,42 @@
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-        <header class="topbar">
+        <header>
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                 <!-- ============================================================== -->
                 <!-- Logo -->
                 <!-- ============================================================== -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="<?=base_url() ?>">
                         <!-- Logo icon --><b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="<?=base_url() ?>/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
-                            <!-- Light Logo icon -->
-                            <img src="<?=base_url() ?>/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
-                        </b>
-                        <!--End Logo icon -->
-                        <!-- Logo text --><span>
-                         <!-- dark Logo text -->
-                         <img src="<?=base_url() ?>/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
-                         <!-- Light Logo text -->    
-                         <img src="<?=base_url() ?>/assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
-                </div>
+                            <img src="<?=base_url() ?>/assets/images/logo-icon.png" alt="homepage" class="dark-logo" /> </a>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
                 <!-- ============================================================== -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                   		<li class="nav-item"> 
-	                   		<a class="nav-link" href="#">
-	                   			<span class="hide-menu">Home </span>
-	                   		</a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse col-md-12" id="navbarCollapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"> 
+                            <a class="nav-link" href="#">
+                                <span class="hide-menu">Home </span>
+                            </a>
                         </li>
                         <li class="nav-item dropdown"> 
-	                   		<a class="nav-link dropdown-toggle nav-item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                   			Pengaturan
-	                   		</a>
-	                   		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link dropdown-toggle nav-item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Pengaturan
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="<?=base_url() ?>/golongan">Golongan</a>
                                 <a class="dropdown-item" href="<?=base_url() ?>/jabatan">Jabatan</a>
                                 <a class="dropdown-item" href="<?=base_url() ?>/pangkat">Pangkat</a>
                                 <a class="dropdown-item" href="<?=base_url() ?>/kesatuan">Kesatuan</a>
-                            	<a class="dropdown-item" href="<?=base_url() ?>/location">Lokasi</a>
-                            	<a class="dropdown-item" href="<?=base_url() ?>/hospital">Rumah Sakit</a>
-                            	<a class="dropdown-item" href="<?=base_url() ?>/employee">Pegawai</a>
-                        	</div>
+                                <a class="dropdown-item" href="<?=base_url() ?>/location">Lokasi</a>
+                                <a class="dropdown-item" href="<?=base_url() ?>/hospital">Rumah Sakit</a>
+                                <a class="dropdown-item" href="<?=base_url() ?>/employee">Pegawai</a>
+                            </div>
                         </li>
                         <li class="nav-item"> 
                             <a class="nav-link" href="<?=base_url() ?>/artikel">
@@ -118,33 +110,8 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav my-lg-0">
-                        <!-- ============================================================== -->
-                        <!-- Profile -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?=base_url() ?>/assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
-                            <div class="dropdown-menu dropdown-menu-right animated flipInY">
-                                <ul class="dropdown-user">
-                                    <li>
-                                        <div class="dw-user-box">
-                                            <div class="u-img"><img src="<?=base_url() ?>/assets/images/users/1.jpg" alt="user"></div>
-                                            <div class="u-text">
-                                                <h4>Steave Jobs</h4>
-                                                <p class="text-muted"><a href="https://www.wrappixel.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6f190e1d1a012f08020e0603410c0002">[email&#160;protected]</a></p><a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
-                                        </div>
-                                    </li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-                                    <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-                                    <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
-                                </ul>
-                            </div>
-                        </li>
+                    <ul class="navbar-nav ml-auto">
+                        <a href="#" class="nav-item nav-link">Logout</a>
                     </ul>
                 </div>
             </nav>
@@ -178,7 +145,7 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <!-- <script data-cfasync="false" src="<?=base_url() ?>/<?=base_url() ?>/<?=base_url() ?>/<?=base_url() ?>/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
+    
     <script src="<?=base_url() ?>/assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap popper Core JavaScript -->
     <script src="<?=base_url() ?>/assets/plugins/bootstrap/js/popper.min.js"></script>
