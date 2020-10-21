@@ -102,6 +102,7 @@ class Employeemodel extends Model
     public function updateemp($id,$data) {
     	return $this->db->table('employee')
     					->set($data)
+                        ->where('person_id',$id)
     					->update();
     }
 }
