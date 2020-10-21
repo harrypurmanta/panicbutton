@@ -52,6 +52,76 @@ class employee extends BaseController
 		return view('formdaftaremployee',$data);
 	}
 
+    public function listmedis() {
+        if (session()->get('user_nm') == "") {
+            session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
+            return redirect()->to(base_url('/'));
+        }
+
+        $data = [
+            'title' => 'employee',
+            'subtitle' => 'employee',
+            'medis' => $this->employeemodel->getmedis()->getResult()
+        ];
+
+        return view('listmedis',$data);
+    }
+
+    public function detailmedis(){
+        $person_id = $this->request->getPost('id');
+        $res = $this->employeemodel->getmedisbyid($person_id)->getResult();
+        foreach ($res as $key) {
+            if ($key->gender_cd == "l") {
+                $gender = "Laki-laki";
+            } else {
+                $gender = "Perempuan";
+            }
+            
+            $ret = "<div class='modal-dialog modal-xl'>"
+               . "<div class='modal-content'>"
+               . "<div class='modal-header'>"
+               . "<h4 class='modal-title'>Detail</h4>"
+                . "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>"
+               . "</div>"
+               . "<div class='modal-body'>"
+               . "<div class='col-lg-12 col-xlg-3 col-md-5'>
+                        <div class='card' style='flex-direction: row !important; '>
+                            <div class='col-md-6' style='display:inline-block;'>
+                                    <center class='m-t-30'> <img src='../images/persons/$key->image_nm' class='img-circle' width='250' height='250' />
+                                        <h4 class='card-title m-t-10'>$key->person_nm</h4>
+                                        <h6 class='card-subtitle'>$key->employee_ext_id / $key->pangkat_nm</h6>
+                                    </center>
+
+                                <div style='display:inline-block; margin-right: 10px;'>
+                                <small class='text-muted'>Kesatuan</small>
+                                <h6>$key->kesatuan_nm</h6> 
+                                <small class='text-muted db'>Phone</small>
+                                <h6>$key->cellphone</h6>
+                                </div>
+                                <div style='display:inline-block'>
+                                <small class='text-muted'>TTL</small>
+                                <h6>$key->birth_place, $key->birth_dttm</h6> 
+                                <small class='text-muted db'>Jenis Kelamin</small>
+                                <h6>$gender</h6>
+                                </div>
+                                <div style='display:inline-block'>
+                                <small class='text-muted'>Alamat</small>
+                                <h6>$key->addr_txt</h6>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>"
+               . "</div>"
+               . "<div class='modal-footer'>"
+               . "<button type='button' class='btn btn-default waves-effect' data-dismiss='modal'>Close</button>"
+               . "</div>"
+               . "</div>"
+               . "</div>";
+        }
+        return $ret;
+    }
+
 	public function cariByname(){
         if (session()->get('user_nm') == "") {
             session()->setFlashdata('error', 'Anda belum login! Silahkan login terlebih dahulu');
@@ -642,7 +712,7 @@ class employee extends BaseController
                 . "<h3 class='box-title'>Users Info</h3>"
                 . "<hr class='m-t-0 m-b-40'>"
                 . "<div class='row'>"
-                . "<div class='col-md-4'>"
+                . "<div class='col-md-6'>"
                 . "<div class='form-group'>"
                 . "<label class='control-label text-right col-md-3'>Username</label>"
                 . "<div class='col-md-8'>"
@@ -652,7 +722,7 @@ class employee extends BaseController
                 . "</div>"
                 . "</div>"
                 . "<!--/span-->"
-                . "<div class='col-md-4'>"
+                . "<div class='col-md-6'>"
                 . "<div class='form-group'>"
                 . "<label class='control-label text-right col-md-3'>Password</label>"
                 . "<div class='col-md-8'>"
@@ -669,16 +739,8 @@ class employee extends BaseController
                 . "<option ".($key->user_group=='admin'?"selected='selected'":"")." value='admin'>Admin</option>"
                 . "<option ".($key->user_group=='employee'?"selected='selected'":"")." value='employee'>Pegawai</option>"
                 . "<option ".($key->user_group=='medic'?"selected='selected'":"")." value='medic'>Medis</option>"
+                . "<option ".($key->user_group=='cc'?"selected='selected'":"")." value='cc'>Command Center</option>"
                 . "</select>"
-                . "</div>"
-                . "</div>"
-                . "</div>"
-                . "<!--/span-->"
-                . "<div class='col-md-4'>"
-                . "<div class='form-group'>"
-                . "<label class='control-label text-right col-md-3'>Avatar</label>"
-                . "<div class='col-md-8'>"
-                . "<input type='file' class='form-control' id='ext_id' value='$key->pwd0'>"
                 . "</div>"
                 . "</div>"
                 . "</div>"
@@ -748,9 +810,10 @@ class employee extends BaseController
                 . "<label class='control-label text-right col-md-3'>Level</label>"
                 . "<div class='col-md-9'>"
                 . "<select  class='form-control' id='user_group'>"
-                . "<option ='admin'>Admin</option>"
-                . "<option ='Employee'>Pegawai</option>"
-                . "<option ='Medic'>Medis</option>"
+                . "<option value='admin'>Admin</option>"
+                . "<option value='Employee'>Pegawai</option>"
+                . "<option value='Medic'>Medis</option>"
+                . "<option value='cc'>Command Center</option>"
                 . "</select>"
                 . "</div>"
                 . "</div>"
@@ -779,39 +842,6 @@ class employee extends BaseController
          return $ret;
         
 	}
-
-	// public function update(){
-	// 	$id = $this->request->getVar('id');
-	// 	$employee_nm = $this->request->getVar('employee_nm');
-	// 	$bykatnm = $this->employeemodel->getbyKatnm($employee_nm);
-
-	// 	if (count($bykatnm)>0) {
-	// 		return 'already';
-	// 	} else {
-	// 		$session = \Config\Services::session();
-	// 		$session->start();
-	// 		$datenow = date('Y-m-d H:i:s');
-	// 		$data = [
-	// 		'employee_nm' => $employee_nm,
-	// 		'updated_dttm' => $datenow,
-	// 		'updated_user' => $session->user_id
-	// 		];
-
-	// 		$save = $this->employeemodel->update($id,$data);
-	// 		if ($save) {
-	// 			return true;
-	// 		} else {
-	// 			return false;
-	// 		}
-	// 	}
-	// }
-
-	// public function formdaftaremployee(){
-	// 	return view('backend/formdaftaremployee');
-	// }
-
-
-
 	
 
 }

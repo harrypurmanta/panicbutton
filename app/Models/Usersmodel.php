@@ -13,7 +13,7 @@ class Usersmodel extends Model
         return $this->db->table($this->table)
                         ->where('user_nm',$u)
                         ->where('pwd0',$p)
-                        ->where('user_group','admin')
+                        ->whereIn('user_group',['admin','cc'])
                         ->get();
     }
 

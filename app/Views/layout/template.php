@@ -1,3 +1,7 @@
+<?php 
+$this->session = \Config\Services::session();
+$this->session->start(); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,38 +84,66 @@
                                 <span class="hide-menu">Home </span>
                             </a>
                         </li>
-                        <li class="nav-item dropdown"> 
-                            <a class="nav-link dropdown-toggle nav-item" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Pengaturan
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="<?=base_url() ?>/golongan">Golongan</a>
-                                <a class="dropdown-item" href="<?=base_url() ?>/jabatan">Jabatan</a>
-                                <a class="dropdown-item" href="<?=base_url() ?>/pangkat">Pangkat</a>
-                                <a class="dropdown-item" href="<?=base_url() ?>/kesatuan">Kesatuan</a>
-                                <a class="dropdown-item" href="<?=base_url() ?>/location">Lokasi</a>
-                                <a class="dropdown-item" href="<?=base_url() ?>/hospital">Rumah Sakit</a>
-                                <a class="dropdown-item" href="<?=base_url() ?>/employee">Pegawai</a>
-                            </div>
-                        </li>
-                        <li class="nav-item"> 
-                            <a class="nav-link" href="<?=base_url() ?>/artikel">
-                                <span class="hide-menu">Artikel</span>
-                            </a>
-                        </li>
-                        <li class="nav-item"> 
-                            <a class="nav-link" href="<?=base_url() ?>/panic/history">
-                                <span class="hide-menu">Panic History</span>
-                            </a>
-                        </li>
-                        <li class="nav-item"> 
-                            <a class="nav-link" href="<?=base_url() ?>/admission">
-                                <span class="hide-menu">Rekam Medis</span>
-                            </a>
-                        </li>
+                        <?php 
+                            if ($this->session->user_group == "admin") {
+                                echo "<li class='nav-item dropdown'> 
+                                        <a class='nav-link dropdown-toggle nav-item' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                                            Pengaturan
+                                        </a>
+                                        <div class='dropdown-menu' aria-labelledby='navbarDropdown'>
+                                            <a class='dropdown-item' href='".base_url()."/golongan'>Golongan</a>
+                                            <a class='dropdown-item' href='".base_url()."/jabatan'>Jabatan</a>
+                                            <a class='dropdown-item' href='".base_url()."/pangkat'>Pangkat</a>
+                                            <a class='dropdown-item' href='".base_url()."/kesatuan'>Kesatuan</a>
+                                            <a class='dropdown-item' href='".base_url()."/location'>Lokasi</a>
+                                            <a class='dropdown-item' href='".base_url()."/hospital'>Rumah Sakit</a>
+                                            <a class='dropdown-item' href='".base_url()."/employee'>Pegawai</a>
+                                        </div>
+                                    </li>
+                                    <li class='nav-item'> 
+                                        <a class='nav-link' href='".base_url()."/artikel'>
+                                            <span class='hide-menu'>Artikel</span>
+                                        </a>
+                                    </li>
+                                    <li class='nav-item'> 
+                                        <a class='nav-link' href='".base_url()."/employee/listmedis'>
+                                            <span class='hide-menu'>Tim Medis</span>
+                                        </a>
+                                    </li>
+                                    <li class='nav-item'> 
+                                        <a class='nav-link' href='".base_url()."/panic/history'>
+                                            <span class='hide-menu'>Panic History</span>
+                                        </a>
+                                    </li>
+                                    <li class='nav-item'> 
+                                        <a class='nav-link' href='".base_url()."/admission'>
+                                            <span class='hide-menu'>Rekam Medis</span>
+                                        </a>
+                                    </li>";
+                            } else if ($this->session->user_group == "cc") {
+                                echo "<li class='nav-item'> 
+                                        <a class='nav-link' href='".base_url()."/panic/history'>
+                                            <span class='hide-menu'>Panic History</span>
+                                        </a>
+                                    </li>
+                                    <li class='nav-item'> 
+                                        <a class='nav-link' href='".base_url()."/employee/listmedis'>
+                                            <span class='hide-menu'>Tim Medis</span>
+                                        </a>
+                                    </li>";
+                            } else {
+                                if ($this->session->user_group == "admin" || $this->session->user_group == "cc") {
+                                    session()->setFlashdata('error', 'Anda tidak boleh masuk');
+                                    return redirect()->to(base_url('/'));
+                                }
+                            }
+                            
+                        ?>
+                        
+                        
                     </ul>
                     <ul class="navbar-nav ml-auto">
-                        <a href="#" class="nav-item nav-link">Logout</a>
+                        <a href="<?= base_url()?>/login/logout" class="nav-item nav-link">Logout</a>
                     </ul>
                 </div>
             </nav>

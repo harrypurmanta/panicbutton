@@ -62,6 +62,32 @@ class Employeemodel extends Model
                          ->get();
     }
 
+    public function getmedis() {
+        return $this->db->table('persons a')
+                        ->join('employee b','b.person_id=a.person_id','left')
+                        ->join('users c','c.person_id=a.person_id','left')
+                        ->join('pangkat d','d.pangkat_id=b.pangkat_id','left')
+                        ->join('jabatan e','e.jabatan_id=b.jabatan_id','left')
+                        ->join('kesatuan f','f.kesatuan_id=b.kesatuan_id','left')
+                        ->where('a.status_cd','normal')
+                        ->where('c.user_group','medic')
+                        ->orderby('a.person_nm','ASC')
+                        ->get();
+    }
+
+    public function getmedisbyid($id) {
+        return $this->db->table('persons a')
+                        ->join('employee b','b.person_id=a.person_id','left')
+                        ->join('users c','c.person_id=a.person_id','left')
+                        ->join('pangkat d','d.pangkat_id=b.pangkat_id','left')
+                        ->join('jabatan e','e.jabatan_id=b.jabatan_id','left')
+                        ->join('kesatuan f','f.kesatuan_id=b.kesatuan_id','left')
+                        ->where('a.status_cd','normal')
+                        ->where('c.user_group','medic')
+                        ->where('a.person_id',$id)
+                        ->get();
+    }
+
     public function simpan($data){
         $this->db->table('persons')
                   ->insert($data);

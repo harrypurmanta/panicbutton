@@ -1,4 +1,7 @@
-<?= $this->extend('layout/template'); 
+<?= 
+$this->extend('layout/template'); 
+$this->session = \Config\Services::session();
+$this->session->start();
 ?>
 
     <?= $this->section('content'); ?>
@@ -6,7 +9,7 @@
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
-        <div class="page-wrapper">
+        <div class="page-wrapper" style="padding-top: 0px !important;">
             
             <!-- ============================================================== -->
             <!-- Container fluid  -->
@@ -65,8 +68,11 @@
                                                 <td><?= $k->phonepanic ?></td>
                                                 <td>Action</td>
                                                 <td class="text-center">
-                                                    <a onclick="detail(<?= $k->panic_transc_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Detail</span></a> |
-                                                    <a onclick="hapus(<?= $k->panic_transc_id ?>,'panic')"><span style="text-decoration:underline;" class="btn btn-link">Hapus</span></a>
+                                                    <a onclick="detail(<?= $k->panic_transc_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Detail</span></a> 
+                                                    <?php if ($this->session->user_group == "admin"): ?>
+                                                        | <a onclick="hapus(<?= $k->panic_transc_id ?>,'panic')"><span style="text-decoration:underline;" class="btn btn-link">Hapus</span></a>
+                                                    <?php endif ?>
+                                                    
                                                 </td>
                                             </tr>
                                         <?php } ?>
