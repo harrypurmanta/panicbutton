@@ -25,8 +25,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?=base_url() ?>/assets/images/favicon.png">
-    <title>Login Page</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="<?=base_url() ?>/assets/images/icon-baru-rev1.png">
+    <title>Mang PDK Medis</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/adminpro/" />
     <!-- Bootstrap Core CSS -->
     <link href="<?=base_url() ?>/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -52,7 +52,7 @@
     <div class="preloader">
         <div class="loader">
             <div class="loader__figure"></div>
-            <p class="loader__label">Lavita Bella</p>
+            <p class="loader__label">Mang PDK Medis</p>
         </div>
     </div>
     <!-- ============================================================== -->

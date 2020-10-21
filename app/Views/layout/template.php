@@ -20,7 +20,7 @@ $this->session->start();
 
     
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?=base_url() ?>/assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?=base_url() ?>/assets/images/icon-baru-rev1.png">
     <title><?= $title; ?></title>
     <!-- Bootstrap Core CSS -->
     <link href="<?=base_url() ?>/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -51,7 +51,7 @@ $this->session->start();
     <div class="preloader">
         <div class="loader">
             <div class="loader__figure"></div>
-            <p class="loader__label">Lavita Bella</p>
+            <p class="loader__label">Mang PDK Medis</p>
         </div>
     </div>
     <!-- ============================================================== -->
@@ -162,7 +162,7 @@ $this->session->start();
 
          <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer"> © 2020 Lavita Bella </footer>
+            <footer class="footer"> © 2020 Mang PDK Medis </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
