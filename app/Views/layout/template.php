@@ -41,6 +41,25 @@ $this->session->start();
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<style type="text/css">
+    .quadrat {
+      -webkit-animation: blinking 1s infinite;  /* Safari 4+ */
+      -moz-animation: blinking 1s infinite;  /* Fx 5+ */
+      -o-animation: blinking 1s infinite;  /* Opera 12+ */
+      animation: blinking 1s infinite;  /* IE 10+, Fx 29+ */
+    }
+
+    @-webkit-keyframes blinking {
+      0%, 49% {
+        background-color:yellow;
+        border: 3px solid #e50000;
+      }
+      50%, 100% {
+        background-color: #e50000;
+        border: 3px solid rgb(117, 209, 63);
+      }
+    }
+</style>
 </head>
 
 
@@ -166,6 +185,9 @@ $this->session->start();
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
+            <div id="modalnotif" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                              
+            </div>
         </div>
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
@@ -203,6 +225,36 @@ $this->session->start();
     <script src="<?=base_url() ?>/assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!-- jQuery file upload -->
     <script src="<?=base_url() ?>/assets/plugins/dropify/dist/js/dropify.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setInterval(function(){ 
+                $.ajax({
+                 url : "<?= base_url('panic/getlistwaiting') ?>",
+                 type: "post",
+                 success:function(data){
+                    if (data == "false") {
+                        $('#modalnotif').modal('hide');
+                    } else {
+                        $("#spannotif").removeClass("d-none")
+                        $('#modalnotif').modal('show');
+                        $('#modalnotif').html(data);
+                    }
+                },
+                error:function(){
+                    Swal.fire({
+                        title:"Gagal!",
+                        text:"Data gagal disimpan!",
+                        type:"warning",
+                        showCancelButton:!0,
+                        confirmButtonColor:"#556ee6",
+                        cancelButtonColor:"#f46a6a"
+                    })
+                }
+                });
+            }, 3000);
+            
+        });
+    </script>
     <script>
       
         $(function () {

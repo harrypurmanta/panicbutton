@@ -24,6 +24,35 @@ class Panic extends BaseController
 		return view('panic',$data);
 	}
 
+	public function getlistwaiting() {
+		$res = $this->panicmodel->getbywaiting()->getResult();
+		if (count($res)>0) {
+			$ret = "<div class='modal-dialog'>"
+	            . "<div class='modal-content'>"
+	            . "<div class='modal-header'>"
+	            . "<h4 class='modal-title'>Emergensi</h4>"
+	             . "<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>"
+	            . "</div>"
+	            . "<div class='modal-body'>";
+		      foreach ($res as $key) {
+		        $ret .= "<a style='width: 100%;' class='btn btn-click' onclick='clickpanicpatient($key->person_idpanic)'>"
+		                . "<div class='quadrat' style='padding:5px;border-radius:10px;margin-top: 5px;margin-bottom: 5px; border-left: 4px solid #ccc;'>"
+		                . "<p style='font-size: 14px;font-weight: bold;margin-left:3px;margin-bottom: 0;'>".$key->pangkatpanic." ".$key->userpanic."</p>"
+		                . "<p style='font-size: 14px;font-weight: bold;margin-left:3px;margin-bottom: 0;'>".$key->nrppanic."</p>"
+		                . "<p style='font-size: 12px;margin-left:3px;margin-bottom: 0;'>".$key->addrpanic."</p>"
+		                . "</div>"
+		                . "</a>";
+	            
+		      }
+		    $ret .= "</div>"
+	            . "</div>";
+			return $ret;
+		} else {
+			return "false";
+		}
+		
+	}
+
 	public function detail() {
 		$id = $this->request->getPost('id');
 		$res = $this->panicmodel->getbyid($id)->getResult();
