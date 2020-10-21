@@ -51,4 +51,34 @@ class Panicmodel extends Model
                 ->where('panic_transc_id',$id)
                 ->get();
     }
+
+    public function countpanic() {
+        return $this->db->table('panic_transc')
+                        ->select('count(panic_transc_id) as jumlahpanic')
+                        ->where('status_cd','normal')
+                        ->get();
+    }
+
+    public function countemp() {
+        return $this->db->table('users')
+                        ->select('count(user_id) as jumlahpasien')
+                        ->where('user_group','employee')
+                        ->where('status_cd','normal')
+                        ->get();
+    }
+
+    public function countmedis() {
+        return $this->db->table('users')
+                        ->select('count(user_id) as jumlahmedis')
+                        ->where('user_group','medic')
+                        ->where('status_cd','normal')
+                        ->get();
+    }
+
+    public function countrs() {
+        return $this->db->table('hospital')
+                        ->select('count(hospital_id) as jumlahrs')
+                        ->where('status_cd','normal')
+                        ->get();
+    }
 }
