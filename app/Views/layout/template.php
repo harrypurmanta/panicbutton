@@ -189,6 +189,7 @@ $this->session->start();
                               
             </div>
         </div>
+        <audio id="sirena_ambulanza" src="assets/sirena_ambulanza.mp3" > </audio>
         <!-- ============================================================== -->
         <!-- End Page wrapper  -->
         <!-- ============================================================== -->
@@ -238,6 +239,7 @@ $this->session->start();
                         $("#spannotif").removeClass("d-none")
                         $('#modalnotif').modal('show');
                         $('#modalnotif').html(data);
+                        document.getElementById('sirena_ambulanza').play();
                     }
                 },
                 error:function(){
