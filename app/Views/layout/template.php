@@ -1,6 +1,7 @@
 <?php 
 $this->session = \Config\Services::session();
 $this->session->start(); 
+$user = $this->session->user_group;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -138,6 +139,11 @@ $this->session->start();
                                         <a class='nav-link' href='".base_url()."/admission'>
                                             <span class='hide-menu'>Rekam Medis</span>
                                         </a>
+                                    </li>
+                                    <li class='nav-item'> 
+                                        <a class='nav-link' href='".base_url()."/riwayatlogin'>
+                                            <span class='hide-menu'>Riwayat Login</span>
+                                        </a>
                                     </li>";
                             } else if ($this->session->user_group == "cc") {
                                 echo "<li class='nav-item'> 
@@ -228,7 +234,9 @@ $this->session->start();
     <script src="<?=base_url() ?>/assets/plugins/dropify/dist/js/dropify.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            setInterval(function(){ 
+            var user = "<?= $user; ?>";
+            if (user == "cc") {
+               setInterval(function(){ 
                 $.ajax({
                  url : "<?= base_url('panic/getlistwaiting') ?>",
                  type: "post",
@@ -253,7 +261,9 @@ $this->session->start();
                     })
                 }
                 });
-            }, 3000);
+            }, 3000); 
+            }
+            
             
         });
     </script>

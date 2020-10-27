@@ -6,7 +6,7 @@
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
         <!-- ============================================================== -->
-        <div class="page-wrapper">
+        <div class="page-wrapper" style="padding-top: 0 !important;">
             
             <!-- ============================================================== -->
             <!-- Container fluid  -->
@@ -22,7 +22,7 @@
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item">Pengaturan</li>
+                        <li class="breadcrumb-item">Data</li>
                         <li class="breadcrumb-item active"><?= $subtitle ?></li>
                     </ol>
                 </div>
@@ -30,39 +30,12 @@
             <!-- ============================================================== -->
             <!-- End Bread crumb and right sidebar toggle -->
             <!-- ============================================================== -->
-          		 <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                              	<?= csrf_field(); ?>
-                                <form id="upload-file" method="post" enctype="multipart/form-data">
-                                    <div class="form-body">
-                                        <div class="row p-t-20">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="control-label">Nama golongan Produk</label>
-                                                    <input type="text" id="namagolongan" name="golongan_nm" class="form-control" placeholder="Input disini" required="">
-                                                    <small class="form-control-feedback"> Contoh : starter, pizza, pasta dll </small> </div>
-                                            </div>
-                                        </div>
-                                       
-                                    </div>
-                                    <div class="form-actions">
-                                        <button id="simpangol" type="button" class="btn btn-success" onclick="simpan()"> <i class="fa fa-check"></i> Save</button>
-                                        <button type="button" class="btn btn-inverse">Cancel</button>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
-                   
-                </div>
+          		
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="card">
                         	<div class="card-header bg-info">
-                                <h4 class="m-b-0 text-white d-inline">Tabel Data golongan</h4>
+                                <h4 class="m-b-0 text-white d-inline">Data Riwayat User</h4>
                             </div>
                             <div class="card-body">
                                <div class="table-responsive">
@@ -70,30 +43,24 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">Nama golongan</th>
-                                                <th class="text-center">Status</th>
-                                                <th class="text-center">Tanggal Entri</th>
-                                                <th class="text-center">Pegawai</th>
-                                                <th class="text-center">Action</th>
+                                                <th class="text-center">Nama Riwayat</th>
+                                                <th class="text-center">User ID Device</th>
+                                                <th class="text-center">Tanggal Login</th>
+                                                <th class="text-center">Tanggal Logout</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         	<?php 
                                         		$no=1;
-                                        		foreach ($golongan->getResult() as $k) {
+                                        		foreach ($riwayat as $k) {
                                         	?>
 
                                             <tr id="accordian-3">
                                                 <td class="text-center"><?= $no++ ?></td>
-                                                <td><a onclick="showedit(<?= $k->golongan_id ?>)"><span style="text-decoration:underline;" class="btn btn-link"><?= $k->golongan_nm ?></span></a>
-                                                </td>
-                                                <td class="text-center"><?= $k->status_cd ?></td>
-                                                <td class="text-center"><?= $k->created_dttm ?></td>
-                                                <td><?= $k->created_user ?></td>
-                                                <td class="text-center">
-                                                    <a onclick="showedit(<?= $k->golongan_id ?>)"><span style="text-decoration:underline;" class="btn btn-link">Edit</span></a> |
-                                                    <a onclick="hapus(<?= $k->golongan_id ?>,'golongan')"><span style="text-decoration:underline;">Hapus</span></a>
-                                                </td>
+                                                <td><?= $k->person_nm?></td>
+                                                <td class="text-center"><?= $k->user_id_device ?></td>
+                                                <td class="text-center"><?= $k->session_login ?></td>
+                                                <td class="text-center"><?= $k->session_logout ?></td>
                                             </tr>
                                         <?php } ?>
 
@@ -117,7 +84,7 @@
 
               <script type="text/javascript">
 
-    var input = document.getElementById("namagolongan");
+    var input = document.getElementById("namariwayat");
     input.addEventListener("keyup", function(event) {
       // Number 13 is the "Enter" key on the keyboard
       if (event.keyCode === 13) {
@@ -128,10 +95,10 @@
 
 
     function simpan() {
-        var golongan_nm = $("input[name^='golongan_nm']").val();
-        if (golongan_nm=='') {
+        var riwayat_nm = $("input[name^='riwayat_nm']").val();
+        if (riwayat_nm=='') {
         	Swal.fire({
-            title:"Nama golongan harus di isi!!",
+            title:"Nama riwayat harus di isi!!",
             text:"GAGAL!",
             type:"warning",
             showCancelButton:!0,
@@ -144,9 +111,9 @@
              jQuery.each($("input[name^='photo']")[0].files, function(i, file) {
                 ajaxData.append('photo['+i+']', file);
               });
-             ajaxData.append('golongan_nm',golongan_nm);
+             ajaxData.append('riwayat_nm',riwayat_nm);
             $.ajax({
-            url : "<?= base_url('golongan/save') ?>",
+            url : "<?= base_url('riwayat/save') ?>",
             type: "POST",
             data : ajaxData,
             contentType: false,
@@ -154,7 +121,7 @@
             success:function(_data){
              if (_data=='already') {
                 Swal.fire({
-                    title:"Nama golongan sudah ada!!",
+                    title:"Nama riwayat sudah ada!!",
                     text:"GAGAL!",
                     type:"warning",
                     showCancelButton:!0,
@@ -171,7 +138,7 @@
                     cancelButtonColor:"#f46a6a"
                 })
                 $('#modaledit').modal('hide');
-                 $( "#myTable" ).load("<?= base_url('golongan') ?> #myTable");
+                 $( "#myTable" ).load("<?= base_url('riwayat') ?> #myTable");
                 }
             },
             error:function(){
@@ -190,7 +157,7 @@
 
 function showedit(id) {
     $.ajax({
-     url : "<?= base_url('golongan/formedit') ?>",
+     url : "<?= base_url('riwayat/formedit') ?>",
      type: "post",
      data : {'id':id},
      success:function(data){
@@ -213,7 +180,7 @@ function showedit(id) {
 
 function hapus(id,t) {
     $.ajax({
-     url : "<?= base_url('golongan/hapus') ?>",
+     url : "<?= base_url('riwayat/hapus') ?>",
      type: "post",
      data : {'id':id,'t':t},
      success:function(){
@@ -226,7 +193,7 @@ function hapus(id,t) {
             confirmButtonColor:"#556ee6",
             cancelButtonColor:"#f46a6a"
         })
-        setTimeout(function(){ window.location.href = "<?=base_url()?>/golongan"; }, 1000);
+        setTimeout(function(){ window.location.href = "<?=base_url()?>/riwayat"; }, 1000);
     
      },
      error:function(){
@@ -244,11 +211,11 @@ function hapus(id,t) {
 }
 
 function update(id) {
-	var golongan_nm = $('#golongan_nm').val();
-    var golongan_id = $('#golongan_id').val();
-        if (golongan_nm=='') {
+	var riwayat_nm = $('#riwayat_nm').val();
+    var riwayat_id = $('#riwayat_id').val();
+        if (riwayat_nm=='') {
         	Swal.fire({
-                    title:"Nama golongan harus di isi!!",
+                    title:"Nama riwayat harus di isi!!",
                     text:"GAGAL!",
                     type:"warning",
                     showCancelButton:!0,
@@ -258,10 +225,10 @@ function update(id) {
         } else {
             var ajaxData = new FormData();
              ajaxData.append('action','update-file');
-             ajaxData.append('golongan_nm',golongan_nm);
-             ajaxData.append('golongan_id',golongan_id);
+             ajaxData.append('riwayat_nm',riwayat_nm);
+             ajaxData.append('riwayat_id',riwayat_id);
             $.ajax({
-            url : "<?= base_url('golongan/update') ?>",
+            url : "<?= base_url('riwayat/update') ?>",
             type: "POST",
             data : ajaxData,
             contentType: false,
@@ -269,7 +236,7 @@ function update(id) {
             success:function(_data){
              if (_data=='already') {
                 Swal.fire({
-                    title:"Nama golongan sudah ada!!",
+                    title:"Nama riwayat sudah ada!!",
                     text:"GAGAL!",
                     type:"warning",
                     showCancelButton:!0,
@@ -286,7 +253,7 @@ function update(id) {
                     cancelButtonColor:"#f46a6a"
                 })
                 $('#modaledit').modal('hide');
-                //setTimeout(function(){ window.location.href = "<?=base_url()?>/golongan"; }, 1000);
+                //setTimeout(function(){ window.location.href = "<?=base_url()?>/riwayat"; }, 1000);
                 }
             },
             error:function(){
