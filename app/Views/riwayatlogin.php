@@ -36,6 +36,7 @@
                         <div class="card">
                         	<div class="card-header bg-info">
                                 <h4 class="m-b-0 text-white d-inline">Data Riwayat User</h4>
+                                <button class="btn btn-success" style="float: right;"><a href="<?= base_url() ?>/riwayatlogin/exportexcel" target="_blank">Download Excel</a></button>
                             </div>
                             <div class="card-body">
                                <div class="table-responsive">
